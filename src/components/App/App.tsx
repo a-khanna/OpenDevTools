@@ -10,17 +10,13 @@ import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import { MdMenu, MdChevronLeft, MdChevronRight, MdExpandLess, MdExpandMore } from 'react-icons/md';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import TextField from '@mui/material/TextField';
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import JsonFormatter from '../Formatters/JsonFormatter/JsonFormatter';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import Collapse from '@mui/material/Collapse';
 import { AppRoutes, FlatRoutes } from '../routes';
 
@@ -122,7 +118,7 @@ function App() {
                         onClick={handleDrawerOpen}
                         edge="start"
                         sx={{ mr: 2, ...(drawerOpen && { display: 'none' }) }}>
-                        <MenuIcon />
+                        <MdMenu />
                     </IconButton>
                     <Typography variant="h6" noWrap component="div">
                         {activeTitle}
@@ -145,7 +141,7 @@ function App() {
                 <DrawerHeader>
                     <TextField id="tf-search-tool" label="Search" variant="standard" onChange={onSearchChange} sx={{ width: '100%' }} />
                     <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        {theme.direction === 'ltr' ? <MdChevronLeft /> : <MdChevronRight />}
                     </IconButton>
                 </DrawerHeader>
                 <Divider />
@@ -170,7 +166,7 @@ function App() {
                                         {(AppRoutes as any)[group].icon}
                                     </ListItemIcon>
                                     <ListItemText primary={(AppRoutes as any)[group].sidebarTitle} />
-                                    {(groupToggle as any)[group] ? <ExpandLess /> : <ExpandMore />}
+                                    {(groupToggle as any)[group] ? <MdExpandLess /> : <MdExpandMore />}
                                 </ListItem>
                                 <Collapse in={(groupToggle as any)[group]} timeout="auto" unmountOnExit>
                                     <List component="div" disablePadding>

@@ -1,5 +1,7 @@
-import FormatIndentIncreaseIcon from '@mui/icons-material/FormatIndentIncrease';
-import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
+import { MdFormatIndentIncrease, MdOutlineChangeCircle, MdSpaceBar } from 'react-icons/md';
+import { CgArrowsExchange } from 'react-icons/cg';
+import { VscJson, VscCode } from 'react-icons/vsc';
+import { AiOutlineHtml5 } from 'react-icons/ai';
 import JsonFormatter from './Formatters/JsonFormatter/JsonFormatter';
 import XmlFormatter from './Formatters/XmlFormatter/XmlFormatter';
 import HtmlEncoder from './Encoders/HtmlEncoder/html';
@@ -8,13 +10,13 @@ import JsonYamlConverter from './Converters/JsonYaml/JsonYamlConverter';
 const AppRoutes = {
     converters: {
         sidebarTitle: "Converters",
-        icon: <ChangeCircleOutlinedIcon />,
+        icon: <CgArrowsExchange />,
         path: "converter",
         children: [
             {
                 sidebarTitle: "JSON <> YAML",
                 pageTitle: "JSON <> YAML Converter",
-                icon: <ChangeCircleOutlinedIcon />,
+                icon: <div><VscJson /><MdSpaceBar /></div>,
                 path: 'jsonyaml',
                 component: <JsonYamlConverter />
             }
@@ -22,13 +24,13 @@ const AppRoutes = {
     },
     encoders: {
         sidebarTitle: "Encoders / Decoders",
-        icon: <ChangeCircleOutlinedIcon />,
+        icon: <MdOutlineChangeCircle />,
         path: "encoder",
         children: [
             {
                 sidebarTitle: "HTML",
                 pageTitle: "HTML Encoder",
-                icon: <ChangeCircleOutlinedIcon />,
+                icon: <AiOutlineHtml5 />,
                 path: 'html',
                 component: <HtmlEncoder />
             }
@@ -36,20 +38,20 @@ const AppRoutes = {
     },
     formatters: {
         sidebarTitle: "Formatters",
-        icon: <FormatIndentIncreaseIcon />,
+        icon: <MdFormatIndentIncrease />,
         path: "formatter",
         children: [
             {
                 sidebarTitle: "JSON Formatter",
                 pageTitle: "JSON Formatter",
-                icon: <FormatIndentIncreaseIcon />,
+                icon: <VscJson />,
                 path: 'json',
                 component: <JsonFormatter />
             },
             {
                 sidebarTitle: "XML Formatter",
                 pageTitle: "XML Formatter",
-                icon: <FormatIndentIncreaseIcon />,
+                icon: <VscCode />,
                 path: 'xml',
                 component: <XmlFormatter />
             }
