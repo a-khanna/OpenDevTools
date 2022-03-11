@@ -1,0 +1,30 @@
+.convert-buttons {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    .operation-text {
+        margin-right: 30px;
+    }
+}
+
+.labels-and-buttons {
+    display: flex;
+    margin-bottom: 20px;
+    
+    .lb-group {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        min-width: 50%;
+
+        .lb-label {
+            margin-right: 30px;
+        }
+    }
+}
+
+.editor-wrapper {
+    display: flex;
+}
