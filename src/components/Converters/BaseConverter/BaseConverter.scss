@@ -1,0 +1,33 @@
+.top-row {
+    display: flex;
+
+    .add-base-container {
+        display: flex;
+        margin-bottom: 10px;
+    
+        .add-base-input, .add-base-button {
+            margin-right: 10px;
+        }
+    }
+}
+
+.group-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .base-input-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        width: fit-content;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-right: 10px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 7px;
+
+        .base-input {
+            margin-right: 10px;
+        }
+    }
+}

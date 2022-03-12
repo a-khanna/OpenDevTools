@@ -3642,7 +3642,7 @@ debug@^3.1.1, debug@^3.2.7:
   dependencies:
     ms "^2.1.1"
 
-decimal.js@^10.2.1:
+decimal.js@^10.2.1, decimal.js@^10.3.1:
   version "10.3.1"
   resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.3.1.tgz#d8c3a444a9c6774ba60ca6ad7261c3a94fd5e783"
   integrity sha512-V0pfhfr8suzyPGOx3nmq4aHqabehUZn6Ch9kyFpV79TGDTWFmHqUqXdabR7QHqxzrYolF4+tVmJhUG4OURg5dQ==
@@ -7946,6 +7946,13 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.7.tgz#a9a1767f8af84155114eaabd73f99273c8f59ad9"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
+
+simple-base-converter@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/simple-base-converter/-/simple-base-converter-1.0.10.tgz#991fd54791345d01e1130556c046d032dc775efd"
+  integrity sha512-u4Cs81/gfsQ8prVr8CA4YUZW9sW5BRDlarrdL5Pv7iDEj8o2VOGXVbjonKjcxIHVUoz4vbyaTai9epzMwE/4Pw==
+  dependencies:
+    decimal.js "^10.3.1"
 
 sisteransi@^1.0.5:
   version "1.0.5"
