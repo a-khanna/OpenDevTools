@@ -1,16 +1,9 @@
 import React from 'react';
 import './JsonFormatter.scss';
-import { drawerWidth } from '../../../global';
-import Editor from "@monaco-editor/react";
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import IconButton from '@mui/material/IconButton';
-import { MdContentCopy, MdContentPaste, MdUploadFile, MdOutlineSaveAlt, MdClear } from 'react-icons/md';
-import Tooltip from '@mui/material/Tooltip';
-import { readText, writeText } from '@tauri-apps/api/clipboard';
-import { open, save } from '@tauri-apps/api/dialog';
-import { readTextFile, writeFile } from '@tauri-apps/api/fs';
+import InputOutputEditors from '../../Common/InputOutputEditors';
 
 const fileDialogFilters = [{ name: 'json files', extensions: ['txt', 'json'] }];
 const formatJson = (input: string | undefined, indentation: string) => {
@@ -38,45 +31,20 @@ const formatJson = (input: string | undefined, indentation: string) => {
 };
 
 function JsonFormatter() {
-    let editorWidth = `calc(47vw - ${drawerWidth / 2}px)`;
-    const editor1Ref: React.MutableRefObject<null | any> = React.useRef(null);
-    const editor2Ref: React.MutableRefObject<null | any> = React.useRef(null);
-
+    const editorRefs: React.MutableRefObject<any> = React.useRef();
     const [indentation, setIndentation] = React.useState('four');
 
-    const setResultEditorText = (value: string | undefined, ind?: string) => {
-        if (editor2Ref.current) {
-            editor2Ref.current.setValue(formatJson(value, ind ?? indentation));
+    const setOutputEditorText = (outputEditor: any, value: string | undefined, ind?: string) => {
+        if (outputEditor) {
+            outputEditor.setValue(formatJson(value, ind ?? indentation));
         }
     }
 
-    const onSourceEditorChange = (value: string | undefined, event: any) => setResultEditorText(value);
-    const onSourceEditorMount = (editor: any, monaco: any) => editor1Ref.current = editor;
-    const onResultEditorMount = (editor: any, monaco: any) => editor2Ref.current = editor;
-
     const handleIndentationChange = (event: React.MouseEvent<HTMLElement>, newIndentation: string) => {
         setIndentation(_ => {
-            setResultEditorText(editor2Ref.current.getValue(), newIndentation);
+            setOutputEditorText(editorRefs.current.outputEditor, editorRefs.current.outputEditor.getValue(), newIndentation);
             return newIndentation;
         });
-    };
-
-    const handlePaste = async () => {
-        const clipboardText = await readText();
-        editor1Ref.current.setValue(clipboardText);
-    };
-    const handleCopy = async () => await writeText(editor2Ref.current.getValue());
-    const handleClear = () => editor1Ref.current.setValue('{}');
-    const handleOpenFile = async() => {
-        const path = await open({ directory: false, filters: fileDialogFilters, multiple: false });
-        if (path) {
-            const content = await readTextFile(path as string);
-            editor1Ref.current.setValue(content);
-        }    
-    };
-    const handleSave = async () => {
-        const path = await save({filters: fileDialogFilters});
-        await writeFile({contents: editor2Ref.current.getValue(), path: path});
     };
 
     return (
@@ -90,40 +58,16 @@ function JsonFormatter() {
                     <ToggleButton value="minify" key="minify">Minified</ToggleButton>
                 </ToggleButtonGroup>
             </div>
-            <div className="labels-and-buttons">
-                <div className="lb-group">
-                    <Typography className="lb-label" noWrap variant='button' component="div">Input</Typography>
-                    <Tooltip title="Paste"><IconButton color="inherit" onClick={handlePaste}><MdContentPaste /></IconButton></Tooltip>
-                    <Tooltip title="Open file"><IconButton color="inherit" onClick={handleOpenFile}><MdUploadFile /></IconButton></Tooltip>
-                    <Tooltip title="Clear"><IconButton color="inherit" onClick={handleClear}><MdClear /></IconButton></Tooltip>
-                </div>
-                <div className="lb-group">
-                    <Typography className="lb-label" noWrap variant='button' component="div">Output</Typography>
-                    <Tooltip title="Copy"><IconButton color="inherit" onClick={handleCopy}><MdContentCopy /></IconButton></Tooltip>
-                    <Tooltip title="Save As"><IconButton color="inherit" onClick={handleSave}><MdOutlineSaveAlt /></IconButton></Tooltip>
-                </div>
-            </div>
-
-            <div className='editor-wrapper'>
-                <Editor
-                    height="calc(90vh - 180px)"
-                    width={editorWidth}
-                    className="editor"
-                    defaultLanguage="json"
-                    defaultValue="{}"
-                    onChange={onSourceEditorChange}
-                    onMount={onSourceEditorMount}
+            <InputOutputEditors 
+                ref={editorRefs}
+                onInputEditorChange={setOutputEditorText}
+                getInputFileDialogFilters={() => fileDialogFilters}
+                getOutputFileDialogFilters={() => fileDialogFilters}
+                inputDefaultLanguage='json'
+                outputDefaultLanguage='json'
+                inputDefaultValue='{}'
+                outputDefaultValue='{}'
                 />
-                <Editor
-                    height="calc(90vh - 180px)"
-                    width={editorWidth}
-                    className="editor"
-                    defaultLanguage="json"
-                    defaultValue="{}"
-                    options={{ readOnly: true }}
-                    onMount={onResultEditorMount}
-                />
-            </div>
         </div>
     );
 }
