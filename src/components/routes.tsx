@@ -1,31 +1,36 @@
-import { MdFormatIndentIncrease, MdOutlineChangeCircle, MdSpaceBar } from 'react-icons/md';
-import { CgArrowsExchange, CgHashtag } from 'react-icons/cg';
-import { VscJson, VscCode } from 'react-icons/vsc';
-import { AiOutlineHtml5, AiOutlineConsoleSql } from 'react-icons/ai';
 import JsonFormatter from './Formatters/JsonFormatter/JsonFormatter';
 import XmlFormatter from './Formatters/XmlFormatter/XmlFormatter';
 import HtmlEncoder from './Encoders/HtmlEncoder/html';
 import JsonYamlConverter from './Converters/JsonYaml/JsonYamlConverter';
 import BaseConverter from './Converters/BaseConverter/BaseConverter';
 import SqlFormatter from './Formatters/SQLFormatter/SQLFormatter';
+import FormatIndentIncreaseIcon from '../icons/FormatIndentIncreaseIcon';
+import ChangeCircleOutlinedIcon from '../icons/ChangeCircleOutlinedIcon';
+import ArrowExchangeIcon from '../icons/ArrowExchangeIcon';
+import HashtagIcon from '../icons/HashtagIcon';
+import SpaceBarIcon from '../icons/SpaceBarIcon';
+import JsonIcon from '../icons/JsonIcon';
+import CodeIcon from '../icons/CodeIcon';
+import OutlineHtml5Icon from '../icons/OutlineHtml5Icon';
+import OutlineConsoleSqlIcon from '../icons/OutlineConsoleSqlIcon';
 
 const AppRoutes = {
     converters: {
         sidebarTitle: "Converters",
-        icon: <CgArrowsExchange />,
+        icon: <ArrowExchangeIcon />,
         path: "converter",
         children: [
             {
                 sidebarTitle: "JSON <> YAML",
                 pageTitle: "JSON <> YAML Converter",
-                icon: <div><VscJson /><MdSpaceBar /></div>,
+                icon: <div><JsonIcon /><SpaceBarIcon /></div>,
                 path: 'jsonyaml',
                 component: <JsonYamlConverter />
             },
             {
                 sidebarTitle: "Base Converter",
                 pageTitle: "Base Converter",
-                icon: <CgHashtag />,
+                icon: <HashtagIcon />,
                 path: 'base',
                 component: <BaseConverter />
             }
@@ -33,13 +38,13 @@ const AppRoutes = {
     },
     encoders: {
         sidebarTitle: "Encoders / Decoders",
-        icon: <MdOutlineChangeCircle />,
+        icon: <ChangeCircleOutlinedIcon />,
         path: "encoder",
         children: [
             {
                 sidebarTitle: "HTML",
                 pageTitle: "HTML Encoder",
-                icon: <AiOutlineHtml5 />,
+                icon: <OutlineHtml5Icon />,
                 path: 'html',
                 component: <HtmlEncoder />
             }
@@ -47,27 +52,27 @@ const AppRoutes = {
     },
     formatters: {
         sidebarTitle: "Formatters",
-        icon: <MdFormatIndentIncrease />,
+        icon: <FormatIndentIncreaseIcon />,
         path: "formatter",
         children: [
             {
                 sidebarTitle: "JSON Formatter",
                 pageTitle: "JSON Formatter",
-                icon: <VscJson />,
+                icon: <JsonIcon />,
                 path: 'json',
                 component: <JsonFormatter />
             },
             {
                 sidebarTitle: "XML Formatter",
                 pageTitle: "XML Formatter",
-                icon: <VscCode />,
+                icon: <CodeIcon />,
                 path: 'xml',
                 component: <XmlFormatter />
             },
             {
                 sidebarTitle: "SQL Formatter",
                 pageTitle: "SQL Formatter",
-                icon: <AiOutlineConsoleSql />,
+                icon: <OutlineConsoleSqlIcon />,
                 path: 'sql',
                 component: <SqlFormatter />
             }

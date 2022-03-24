@@ -4,12 +4,16 @@ import { drawerWidth } from '../../global';
 import Editor from "@monaco-editor/react";
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import { MdContentCopy, MdContentPaste, MdUploadFile, MdOutlineSaveAlt, MdClear } from 'react-icons/md';
 import Tooltip from '@mui/material/Tooltip';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import { open, save } from '@tauri-apps/api/dialog';
 import { readTextFile, writeFile } from '@tauri-apps/api/fs';
 import PropTypes from 'prop-types';
+import ContentCopyIcon from '../../icons/ContentCopyIcon';
+import ContentPasteIcon from '../../icons/ContentPasteIcon';
+import UploadFileIcon from '../../icons/UploadFileIcon';
+import SaveAltIcon from '../../icons/SaveAltIcon';
+import ClearIcon from '../../icons/ClearIcon';
 
 let editorWidth = `calc(47vw - ${drawerWidth / 2}px)`;
 
@@ -54,14 +58,14 @@ const InputOutputEditors = React.forwardRef((props: any, ref: any) => {
             <div className="labels-and-buttons">
                 <div className="lb-group">
                     <Typography className="lb-label" noWrap variant='button' component="div">Input</Typography>
-                    <Tooltip title="Paste"><IconButton color="inherit" onClick={handlePaste}><MdContentPaste /></IconButton></Tooltip>
-                    <Tooltip title="Open file"><IconButton color="inherit" onClick={handleOpenFile}><MdUploadFile /></IconButton></Tooltip>
-                    <Tooltip title="Clear"><IconButton color="inherit" onClick={handleClear}><MdClear /></IconButton></Tooltip>
+                    <Tooltip title="Paste"><IconButton color="inherit" onClick={handlePaste}><ContentPasteIcon /></IconButton></Tooltip>
+                    <Tooltip title="Open file"><IconButton color="inherit" onClick={handleOpenFile}><UploadFileIcon /></IconButton></Tooltip>
+                    <Tooltip title="Clear"><IconButton color="inherit" onClick={handleClear}><ClearIcon /></IconButton></Tooltip>
                 </div>
                 <div className="lb-group">
                     <Typography className="lb-label" noWrap variant='button' component="div">Output</Typography>
-                    <Tooltip title="Copy"><IconButton color="inherit" onClick={handleCopy}><MdContentCopy /></IconButton></Tooltip>
-                    <Tooltip title="Save As"><IconButton color="inherit" onClick={handleSave}><MdOutlineSaveAlt /></IconButton></Tooltip>
+                    <Tooltip title="Copy"><IconButton color="inherit" onClick={handleCopy}><ContentCopyIcon /></IconButton></Tooltip>
+                    <Tooltip title="Save As"><IconButton color="inherit" onClick={handleSave}><SaveAltIcon /></IconButton></Tooltip>
                 </div>
             </div>
 

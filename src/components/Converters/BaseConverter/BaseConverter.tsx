@@ -7,10 +7,13 @@ import { AlertColor } from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
 import Tooltip from '@mui/material/Tooltip';
-import { MdContentCopy, MdContentPaste, MdClear, MdDeleteOutline, MdClose } from 'react-icons/md';
 import { convertBase } from 'simple-base-converter';
 import { readText, writeText } from '@tauri-apps/api/clipboard';
 import Box from '@mui/material/Box';
+import ContentCopyIcon from '../../../icons/ContentCopyIcon';
+import ContentPasteIcon from '../../../icons/ContentPasteIcon';
+import ClearIcon from '../../../icons/ClearIcon';
+import DeleteOutlineIcon from '../../../icons/DeleteOutlineIcon';
 
 const getBaseName = (base: number) => {
     const names: any = {
@@ -123,7 +126,7 @@ function BaseConverter() {
                             size="small"
                             onClick={() => setError(error => { return {open: false, text: error.text, severity: error.severity}})}
                             >
-                            <MdClose fontSize="inherit" />
+                                <ClearIcon />
                             </IconButton>
                         }
                         sx={{ mb: 2 }}
@@ -138,10 +141,10 @@ function BaseConverter() {
                     <Box className="base-input-container" key={baseInfo.base}>
                         <TextField className="base-input" label={getBaseName(baseInfo.base)}
                             onChange={event => calculateAllBases((event.target as any).value, baseInfo.base)} value={baseInfo.value}/>
-                        <Tooltip title="Paste"><IconButton color="inherit" onClick={() => handlePaste(baseInfo.base)}><MdContentPaste /></IconButton></Tooltip>
-                        <Tooltip title="Copy"><IconButton color="inherit" onClick={() => handleCopy(baseInfo.base)}><MdContentCopy /></IconButton></Tooltip>
-                        <Tooltip title="Clear"><IconButton color="inherit" onClick={handleClear}><MdClear /></IconButton></Tooltip>
-                        <Tooltip title="Delete"><IconButton color="inherit" onClick={() => handleDelete(baseInfo.base)}><MdDeleteOutline /></IconButton></Tooltip>
+                        <Tooltip title="Paste"><IconButton color="inherit" onClick={() => handlePaste(baseInfo.base)}><ContentPasteIcon /></IconButton></Tooltip>
+                        <Tooltip title="Copy"><IconButton color="inherit" onClick={() => handleCopy(baseInfo.base)}><ContentCopyIcon /></IconButton></Tooltip>
+                        <Tooltip title="Clear"><IconButton color="inherit" onClick={handleClear}><ClearIcon /></IconButton></Tooltip>
+                        <Tooltip title="Delete"><IconButton color="inherit" onClick={() => handleDelete(baseInfo.base)}><DeleteOutlineIcon /></IconButton></Tooltip>
                     </Box>
                 ))}
             </div>
