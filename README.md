@@ -1,4 +1,5 @@
 ![CI](https://github.com/a-khanna/tauri-app/actions/workflows/ci.yml/badge.svg)
+[![License][license-badge]](LICENCE)
 
 # Getting Started with Create React App
 
@@ -46,3 +47,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+[license-badge]: https://img.shields.io/badge/license-MIT-007EC7.svg
