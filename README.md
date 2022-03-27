@@ -1,5 +1,5 @@
 ![CI](https://github.com/a-khanna/tauri-app/actions/workflows/ci.yml/badge.svg)
-[![License][license-badge]](LICENCE)
+[![License][license-badge]](LICENSE)
 
 # Getting Started with Create React App
 
