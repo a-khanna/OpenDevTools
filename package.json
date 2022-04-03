@@ -25,6 +25,7 @@
     "react-scripts": "5.0.0",
     "simple-base-converter": "^1.0.10",
     "sql-formatter": "^4.0.2",
+    "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store#dev",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0",
     "yaml": "^2.0.0-10"

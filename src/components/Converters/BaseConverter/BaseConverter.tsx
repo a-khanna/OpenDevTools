@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './BaseConverter.scss';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -14,16 +14,7 @@ import ContentCopyIcon from '../../../icons/ContentCopyIcon';
 import ContentPasteIcon from '../../../icons/ContentPasteIcon';
 import ClearIcon from '../../../icons/ClearIcon';
 import DeleteOutlineIcon from '../../../icons/DeleteOutlineIcon';
-
-const getBaseName = (base: number) => {
-    const names: any = {
-        2: 'Binary',
-        8: 'Octal',
-        10: 'Decimal',
-        16: 'Hex'    
-    };
-    return names[base] ? names[base] : 'Base' + base;
-};
+import { Store } from 'tauri-plugin-store-api';
 
 interface BaseInfo {
     base: number,
@@ -37,22 +28,47 @@ interface Error {
     severity: AlertColor
 }
 
+const store = new Store('.settings.dat');
+const getBaseName = (base: number) => {
+    const names: any = {
+        2: 'Binary',
+        8: 'Octal',
+        10: 'Decimal',
+        16: 'Hex'    
+    };
+    return names[base] ? names[base] : 'Base' + base;
+};
+
 function BaseConverter() {
+    
     const [error, setError] = React.useState<Error>({open: false, text: '', severity: 'error'});
     const [baseList, setBaseList] = React.useState<BaseInfo[]>([
         {base: 2, error: false, value:''},
         {base: 8, error: false, value:''},
         {base: 10, error: false, value:''},
-        {base: 16, error: false, value:''},
+        {base: 16, error: false, value:''}
     ]);
     const [addBase, setAddBase] = React.useState('');
-    const handleAddBase = () => {
-        if (parseInt(addBase) < 2 || parseInt(addBase) > 62) {
+    const handleAddBase = async () => {
+        const baseToAdd = parseInt(addBase);
+        if (isNaN(baseToAdd) || baseToAdd < 2 || baseToAdd > 62) {
             setError({open: true, text: 'Base number must be between 2 and 62.', severity: 'warning'});
             setAddBase('');
             return;
         }
-        setBaseList(list => [...list, {base: parseInt(addBase), error: false, value:''}]);
+        if (baseList.find(b => b.base === baseToAdd)) {
+            setError({open: true, text: 'Base already added.', severity: 'warning'});
+            setAddBase('');
+            return;
+        }
+        setBaseList(list => [...list, {base: baseToAdd, error: false, value:''}]);
+
+        let storeBases = await store.get('bases') as number[];
+        storeBases = storeBases ? [...storeBases, baseToAdd] : [baseToAdd];
+        await store.set('bases', storeBases);
+        await store.save();
+        await store.load();
+
         setAddBase('');
     };
     const calculateAllBases = (inputValue: string, base: number) => {
@@ -81,6 +97,16 @@ function BaseConverter() {
             return clone;
         });
     };
+
+    useEffect(() => {
+        store.get('bases')
+            .then(result => {
+                if (result) {
+                    const storeBases = (result as number[]).map(b => { return {base: b, error: false, value:''} as BaseInfo});
+                    setBaseList(list => [...list, ...storeBases]);
+                }               
+            });
+    }, []);
 
     const handlePaste = async (base: number) => {
         const clipboardText = await readText() ?? '';
