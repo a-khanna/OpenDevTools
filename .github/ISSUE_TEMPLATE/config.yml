@@ -1,0 +1,4 @@
+contact_links:
+    - name: Feature Request
+      url: https://github.com/a-khanna/tauri-app/discussions
+      about: Suggest an idea or solution for this project
