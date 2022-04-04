@@ -23,6 +23,7 @@ import ChevronLeftIcon from '../../icons/ChevronLeftIcon';
 import ChevronRightIcon from '../../icons/ChevronRightIcon';
 import ExpandLessIcon from '../../icons/ExpandLessIcon';
 import ExpandMoreIcon from '../../icons/ExpandMoreIcon';
+import packageInfo from '../../../package.json';
 
 const menuGroups = Object.keys(AppRoutes);
 const flatRoutes = FlatRoutes();
@@ -190,6 +191,7 @@ function App() {
                             </div>
                     ))}
                 </List>
+                <div className="package-version">v{packageInfo.version}</div>
             </Drawer>
             <Main open={drawerOpen}>
                 <DrawerHeader />
