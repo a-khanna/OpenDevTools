@@ -1,5 +1,12 @@
+<p>
+  <img width="128" align="center" src="assets/640x640.png">
+</p>
+
+# OpenDevTools
+
 ![CI](https://github.com/a-khanna/tauri-app/actions/workflows/ci.yml/badge.svg)
 [![License][license-badge]](LICENSE)
+  
 
 # Getting Started with Create React App
 
