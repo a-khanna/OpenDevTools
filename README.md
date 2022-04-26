@@ -7,8 +7,8 @@
 # OpenDevTools
 
 ![CI](https://github.com/a-khanna/tauri-app/actions/workflows/ci.yml/badge.svg)
-[![License][license-badge]](LICENSE)
 [![Supported Platforms](https://img.shields.io/badge/Platform-windows%20%7C%20linux%20%7C%20macos-green)](https://github.com/a-khanna/OpenDevTools/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
   
