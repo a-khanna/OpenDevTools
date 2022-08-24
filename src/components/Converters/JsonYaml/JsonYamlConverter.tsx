@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './JsonYamlConverter.scss';
 import Typography from '@mui/material/Typography';
 import ToggleButton from '@mui/material/ToggleButton';
@@ -8,6 +8,7 @@ import InputOutputEditors from '../../Common/InputOutputEditors';
 
 const fileDialogJsonFilters = [{ name: 'json files', extensions: ['txt', 'json'] }];
 const fileDialogYamlFilters = [{ name: 'yaml files', extensions: ['txt', 'yaml', 'yml'] }];
+const LOCALSTORAGE_KEY = 'JsonYamlConverterText';
 
 function JsonYamlConverter() {
     const editorRefs: React.MutableRefObject<any> = React.useRef();
@@ -15,17 +16,19 @@ function JsonYamlConverter() {
 
     const setOutputEditorText = (outputEditor: any, value: string | undefined, j2y?: boolean) => {
         if (outputEditor) {
+            localStorage.setItem(LOCALSTORAGE_KEY, value ?? '');
+
             if (j2y ?? jsonToYaml) {
                 try {
-                    const json = JSON.parse(value ?? '');
-                    outputEditor.setValue(YAML.stringify(json));
+                    const result = YAML.stringify(JSON.parse(value ?? ''));                
+                    outputEditor.setValue(result);
                 } catch(error: any) {
                     outputEditor.setValue('Not a valid JSON!\n' + error.message);
                 }
             } else {
                 try {
-                    const json = JSON.stringify(YAML.parse(value ?? ''));
-                    outputEditor.setValue(json);
+                    const result = JSON.stringify(YAML.parse(value ?? ''));
+                    outputEditor.setValue(result);
                 } catch(error: any) {
                     outputEditor.setValue('Not a valid YAML!\n' + error.message);
                 }            
@@ -39,6 +42,13 @@ function JsonYamlConverter() {
             return j2y;
         });
     };
+
+    useEffect(() => {
+        // do conversion on component load
+        setTimeout(() => {
+            setOutputEditorText(editorRefs.current.outputEditor, editorRefs.current.inputEditor.getValue());
+        }, 500);
+    }, []);
 
     return (
         <div>
@@ -56,7 +66,7 @@ function JsonYamlConverter() {
                 getOutputFileDialogFilters={() => jsonToYaml ? fileDialogYamlFilters : fileDialogJsonFilters}
                 inputDefaultLanguage='json'
                 outputDefaultLanguage='yaml'
-                inputDefaultValue='{}'
+                inputDefaultValue={localStorage.getItem(LOCALSTORAGE_KEY) ? localStorage.getItem(LOCALSTORAGE_KEY) : '{}'}
                 />
         </div>
     );

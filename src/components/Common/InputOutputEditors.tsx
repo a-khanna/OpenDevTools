@@ -39,7 +39,7 @@ const InputOutputEditors = React.forwardRef((props: any, ref: any) => {
         inputEditorRef.current.setValue(clipboardText);
     };
     const handleCopy = async () => await writeText(outputEditorRef.current.getValue());
-    const handleClear = () => inputEditorRef.current.setValue(props.inputDefaultValue);
+    const handleClear = () => inputEditorRef.current.setValue('');
     const handleOpenFile = async() => {
         const path = await open({ directory: false, filters: props.getInputFileDialogFilters(), multiple: false });
         if (path) {

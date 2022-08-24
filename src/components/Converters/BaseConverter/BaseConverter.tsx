@@ -14,7 +14,7 @@ import ContentCopyIcon from '../../../icons/ContentCopyIcon';
 import ContentPasteIcon from '../../../icons/ContentPasteIcon';
 import ClearIcon from '../../../icons/ClearIcon';
 import DeleteOutlineIcon from '../../../icons/DeleteOutlineIcon';
-import { Store } from 'tauri-plugin-store-api';
+import { StoreManager } from '../../../utils/StoreManager';
 
 interface BaseInfo {
     base: number,
@@ -28,7 +28,7 @@ interface Error {
     severity: AlertColor
 }
 
-const store = new Store('.settings.dat');
+const storeManager = new StoreManager('BaseConverter');
 const getBaseName = (base: number) => {
     const names: any = {
         2: 'Binary',
@@ -63,11 +63,9 @@ function BaseConverter() {
         }
         setBaseList(list => [...list, {base: baseToAdd, error: false, value:''}]);
 
-        let storeBases = await store.get('bases') as number[];
+        let storeBases = await storeManager.Get('bases') as number[];
         storeBases = storeBases ? [...storeBases, baseToAdd] : [baseToAdd];
-        await store.set('bases', storeBases);
-        await store.save();
-        await store.load();
+        await storeManager.Set('bases', storeBases);
 
         setAddBase('');
     };
@@ -99,7 +97,7 @@ function BaseConverter() {
     };
 
     useEffect(() => {
-        store.get('bases')
+        storeManager.Get('bases')
             .then(result => {
                 if (result) {
                     const storeBases = (result as number[]).map(b => { return {base: b, error: false, value:''} as BaseInfo});
@@ -119,7 +117,12 @@ function BaseConverter() {
             bi.value = '';
         return clone;
     });
-    const handleDelete = (base: number) => setBaseList(list => [...list].filter(b => b.base !== base));
+    const handleDelete = (base: number) => setBaseList(list => {
+        const newList = [...list].filter(b => b.base !== base);
+        storeManager.Get('bases')
+            .then(baseList => storeManager.Set('bases', (baseList as number[]).filter(b => b !== base)));
+        return newList;
+    });
 
     return (
         <div>
