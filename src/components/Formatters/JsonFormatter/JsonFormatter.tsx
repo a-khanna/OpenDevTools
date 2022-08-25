@@ -34,7 +34,8 @@ function JsonFormatter() {
     const editorRefs: React.MutableRefObject<any> = React.useRef();
     const [indentation, setIndentation] = React.useState('four');
 
-    const setOutputEditorText = (outputEditor: any, value: string | undefined, ind?: string) => {
+    const setOutputEditorText = (value: string | undefined, ind?: string) => {
+        const outputEditor = editorRefs.current.outputEditor;
         if (outputEditor) {
             outputEditor.setValue(formatJson(value, ind ?? indentation));
         }
@@ -42,7 +43,7 @@ function JsonFormatter() {
 
     const handleIndentationChange = (event: React.MouseEvent<HTMLElement>, newIndentation: string) => {
         setIndentation(_ => {
-            setOutputEditorText(editorRefs.current.outputEditor, editorRefs.current.outputEditor.getValue(), newIndentation);
+            setOutputEditorText(editorRefs.current.outputEditor.getValue(), newIndentation);
             return newIndentation;
         });
     };

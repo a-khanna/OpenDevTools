@@ -27,10 +27,13 @@ const InputOutputEditors = React.forwardRef((props: any, ref: any) => {
         },
         get outputEditor() {
             return outputEditorRef.current;
+        },
+        switchModels() {
+            switchModels();
         }
     }));
 
-    const onInputEditorChange = (value: string | undefined, event: any) => props.onInputEditorChange(outputEditorRef.current, value);
+    const onInputEditorChange = (value: string | undefined, event: any) => props.onInputEditorChange(value);
     const onInputEditorMount = (editor: any, monaco: any) => inputEditorRef.current = editor;
     const onOutputEditorMount = (editor: any, monaco: any) => outputEditorRef.current = editor;
 
@@ -51,6 +54,13 @@ const InputOutputEditors = React.forwardRef((props: any, ref: any) => {
         const path = await save({filters: props.getOutputFileDialogFilters()});
         if (path)
             await writeFile({contents: outputEditorRef.current.getValue(), path: path});
+    };
+
+    const switchModels = () => {
+        const inputModel = inputEditorRef.current.getModel();
+        const outputModel = outputEditorRef.current.getModel();
+        inputEditorRef.current.setModel(outputModel);
+        outputEditorRef.current.setModel(inputModel);
     };
 
     return (

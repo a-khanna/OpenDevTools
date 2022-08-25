@@ -13,7 +13,8 @@ function JsonYamlConverter() {
     const editorRefs: React.MutableRefObject<any> = React.useRef();
     const [jsonToYaml, setJsonToYaml] = React.useState(true);
 
-    const setOutputEditorText = (outputEditor: any, value: string | undefined, j2y?: boolean) => {
+    const setOutputEditorText = (value: string | undefined, j2y?: boolean) => {
+        const outputEditor = editorRefs.current.outputEditor;
         if (outputEditor) {
             if (j2y ?? jsonToYaml) {
                 try {
@@ -35,7 +36,7 @@ function JsonYamlConverter() {
 
     const handleOperationChange = (event: React.MouseEvent<HTMLElement>, j2y: boolean) => {
         setJsonToYaml(_ => {
-            setOutputEditorText(editorRefs.current.outputEditor, editorRefs.current.outputEditor.getValue(), j2y);
+            editorRefs.current.switchModels();
             return j2y;
         });
     };

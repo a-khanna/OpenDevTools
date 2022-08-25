@@ -12,7 +12,8 @@ function HtmlEncoder() {
     const editorRefs: React.MutableRefObject<any> = React.useRef();
     const [encodeEnabled, setEncodeEnabled] = React.useState(true);
 
-    const setOutputEditorText = (outputEditor: any, value: string | undefined, enc?: boolean) => {
+    const setOutputEditorText = (value: string | undefined, enc?: boolean) => {
+        const outputEditor = editorRefs.current.outputEditor;
         if (outputEditor) {
             if (enc ?? encodeEnabled)
                 outputEditor.setValue(encode(value));
@@ -23,7 +24,7 @@ function HtmlEncoder() {
 
     const handleOperationChange = (event: React.MouseEvent<HTMLElement>, enc: boolean) => {
         setEncodeEnabled(_ => {
-            setOutputEditorText(editorRefs.current.outputEditor, editorRefs.current.outputEditor.getValue(), enc);
+            editorRefs.current.switchModels();
             return enc;
         });
     };
