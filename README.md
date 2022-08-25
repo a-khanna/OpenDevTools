@@ -11,7 +11,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 </div>
-  
+
+## Introduction
+
 OpenDevTools is a collection of tools bundled to cater the day-to-day needs of developers.\
 No need to take your data to untrusted/closed-source sites to perform simple tasks.\
 Tools available:
@@ -28,6 +30,13 @@ Tools available:
 and many more to be added!
 
 ![Screenshot](assets/screenshot.png)
+
+## How to install
+
+Download the OS specific setup from the [releases](https://github.com/a-khanna/OpenDevTools/releases) page.\
+For Windows, use *.msi installer file.\
+For Linux, use *.AppImage or .deb file.\
+For MacOS, use *.tar.gz or *.dmg file.
 
 ## Architecture
 
