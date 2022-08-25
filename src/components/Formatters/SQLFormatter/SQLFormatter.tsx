@@ -26,7 +26,8 @@ function SqlFormatter() {
     const [language, setLanguage] = React.useState('sql');
     const [indentation, setIndentation] = React.useState('four');
 
-    const setOutputEditorText = (outputEditor: any, value: string | undefined, lang?: string, ind?: string) => {
+    const setOutputEditorText = (value: string | undefined, lang?: string, ind?: string) => {
+        const outputEditor = editorRefs.current.outputEditor;
         if (outputEditor) {
             outputEditor.setValue(formatSql(value, lang ?? language, ind ?? indentation));
         }
@@ -35,7 +36,6 @@ function SqlFormatter() {
     const handleLanguageChange = (event: SelectChangeEvent) => {
         setLanguage(_ => {
             setOutputEditorText(
-                editorRefs.current.outputEditor,
                 editorRefs.current.outputEditor.getValue(),
                 event.target.value,
                 indentation);
@@ -46,7 +46,6 @@ function SqlFormatter() {
     const handleIndentationChange = (event: React.MouseEvent<HTMLElement>, newIndentation: string) => {
         setIndentation(_ => {
             setOutputEditorText(
-                editorRefs.current.outputEditor,
                 editorRefs.current.outputEditor.getValue(),
                 language,
                 newIndentation);
