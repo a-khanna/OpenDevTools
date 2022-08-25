@@ -1,55 +1,71 @@
-import React from 'react'
-import { drawerWidth } from '../../../global';
-import Editor from "@monaco-editor/react";
+import React from 'react';
+import Typography from '@mui/material/Typography';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import InputOutputEditors from '../../Common/InputOutputEditors';
+import formatter from 'xml-formatter';
+
+const fileDialogFilters = [{ name: 'xml files', extensions: ['txt', 'xml'] }];
+const formatXml = (input: string | undefined, indentation: string) => {
+    let formattedText = input;
+    try {
+        switch (indentation) {
+            case "four":
+                formattedText = formatter(input ?? '', {indentation: '    ', lineSeparator: '\n'});
+                break;
+            case "two":
+                formattedText = formatter(input ?? '', {indentation: '  ', lineSeparator: '\n'});
+                break;
+            case "tab":
+                formattedText = formatter(input ?? '', {indentation: '\t', lineSeparator: '\n'});
+                break;
+            default:
+                formattedText = formatter(input ?? '', {indentation: '', lineSeparator: ''});
+                break;
+        }
+        return formattedText;
+    } catch (error: any) {
+        return 'Not a valid XML!\n' + error.message;
+    }
+};
 
 function XmlFormatter() {
-    let editorWidth = `calc(47vw - ${drawerWidth / 2}px)`;
-    const editor2Ref: React.MutableRefObject<null | any> = React.useRef(null);
+    const editorRefs: React.MutableRefObject<any> = React.useRef();
+    const [indentation, setIndentation] = React.useState('four');
 
-    const onSourceEditorChange = (value: string | undefined, event: any) => {
-        if (editor2Ref.current) {
-            let formattedText = value;
-            var xmlDoc = new DOMParser().parseFromString(value ?? '', 'application/xml');
-            var xsltDoc = new DOMParser().parseFromString([
-                // describes how we want to modify the XML - indent everything
-                '<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform">',
-                '  <xsl:strip-space elements="*"/>',
-                '  <xsl:template match="para[content-style][not(text())]">', // change to just text() to strip space in text nodes
-                '    <xsl:value-of select="normalize-space(.)"/>',
-                '  </xsl:template>',
-                '  <xsl:template match="node()|@*">',
-                '    <xsl:copy><xsl:apply-templates select="node()|@*"/></xsl:copy>',
-                '  </xsl:template>',
-                '  <xsl:output indent="yes"/>',
-                '</xsl:stylesheet>',
-            ].join('\n'), 'application/xml');
-
-            var xsltProcessor = new XSLTProcessor();    
-            xsltProcessor.importStylesheet(xsltDoc);
-            var resultDoc = xsltProcessor.transformToDocument(xmlDoc);
-            formattedText = new XMLSerializer().serializeToString(resultDoc);
-            editor2Ref.current.setValue(formattedText);
+    const setOutputEditorText = (value: string | undefined, ind?: string) => {
+        const outputEditor = editorRefs.current.outputEditor;
+        if (outputEditor) {
+            outputEditor.setValue(formatXml(value, ind ?? indentation));
         }
-    };
-    const onResultEditorMount = (editor: any, monaco: any) => {
-        editor2Ref.current = editor;
+    }
+
+    const handleIndentationChange = (event: React.MouseEvent<HTMLElement>, newIndentation: string) => {
+        setIndentation(_ => {
+            setOutputEditorText(editorRefs.current.outputEditor.getValue(), newIndentation);
+            return newIndentation;
+        });
     };
 
     return (
-        <div className='editor-wrapper'>
-            <Editor
-                height="calc(90vh - 180px)"
-                width={editorWidth}
-                defaultLanguage="xml"
-                onChange={onSourceEditorChange}
-            />
-            <Editor
-                height="calc(90vh - 180px)"
-                width={editorWidth}
-                defaultLanguage="xml"
-                options={{ readOnly: true }}
-                onMount={onResultEditorMount}
-            />
+        <div>
+            <div className="indentation">
+                <Typography noWrap variant='button' component="div" className='indentation-text'>Indentation</Typography>
+                <ToggleButtonGroup size="large" value={indentation} onChange={handleIndentationChange} exclusive={true}>
+                    <ToggleButton value="four" key="four">Four Spaces</ToggleButton>
+                    <ToggleButton value="two" key="two">Two Spaces</ToggleButton>
+                    <ToggleButton value="tab" key="tab">Tab</ToggleButton>
+                    <ToggleButton value="minify" key="minify">Minified</ToggleButton>
+                </ToggleButtonGroup>
+            </div>
+            <InputOutputEditors 
+                ref={editorRefs}
+                onInputEditorChange={setOutputEditorText}
+                getInputFileDialogFilters={() => fileDialogFilters}
+                getOutputFileDialogFilters={() => fileDialogFilters}
+                inputDefaultLanguage='xml'
+                outputDefaultLanguage='xml'
+                />
         </div>
     );
 }
